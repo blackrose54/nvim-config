@@ -31,7 +31,49 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "nvchad.autocmds"
+require("mason").setup()
+require("mason-lspconfig").setup {
+  ensure_installed = {
+    "lua_ls",
+    "ts_ls",
+    "solidity_ls",
+    "clangd",
+    "tailwindcss"
+  },
+  automatic_installation = true,
+}
+
+require("nvim-tree").setup({
+  view={
+    side="right"
+  }
+})
+
+require('telescope').setup{
+  defaults = {
+    file_ignore_patterns = {
+      "node_modules"
+    }
+  }
+}
 
 vim.schedule(function()
   require "mappings"
 end)
+
+require('nvim-ts-autotag').setup({
+  opts = {
+    -- Defaults
+    enable_close = true, -- Auto close tags
+    enable_rename = true, -- Auto rename pairs of tags
+    enable_close_on_slash = true -- Auto close on trailing </
+  },
+  per_filetype = {
+    ["tsx"] = {
+      enable_close =true
+    },
+    ["jsx"]={
+      enable_close=true
+    }
+  }
+})
