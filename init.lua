@@ -29,6 +29,7 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
+require("luasnip.loaders.from_lua").load { paths = "~/.config/nvim/lua/custom/snippets/" }
 require "options"
 require "nvchad.autocmds"
 require("mason").setup()
@@ -38,42 +39,52 @@ require("mason-lspconfig").setup {
     "ts_ls",
     "solidity_ls",
     "clangd",
-    "tailwindcss"
+    "tailwindcss",
   },
   automatic_installation = true,
 }
 
-require("nvim-tree").setup({
-  view={
-    side="right"
-  }
-})
+require("nvim-tree").setup {
+  view = {
+    side = "right",
+  },
+}
 
-require('telescope').setup{
+require("telescope").setup {
   defaults = {
     file_ignore_patterns = {
-      "node_modules"
-    }
-  }
+      "node_modules",
+    },
+  },
 }
 
 vim.schedule(function()
   require "mappings"
 end)
 
-require('nvim-ts-autotag').setup({
+require("nvim-ts-autotag").setup {
   opts = {
     -- Defaults
     enable_close = true, -- Auto close tags
     enable_rename = true, -- Auto rename pairs of tags
-    enable_close_on_slash = true -- Auto close on trailing </
+    enable_close_on_slash = true, -- Auto close on trailing </
   },
   per_filetype = {
     ["tsx"] = {
-      enable_close =true
+      enable_close = true,
     },
-    ["jsx"]={
-      enable_close=true
-    }
-  }
-})
+    ["jsx"] = {
+      enable_close = true,
+    },
+  },
+}
+
+require("dressing").setup {
+  format_item_override = {
+    codeaction = function(action_tuple)
+      local title = action_tuple[2].title:gsub("\r\n", "\\r\\n")
+      local client = vim.lsp.get_client_by_id(action_tuple[1])
+      return string.format("%s\t[%s]", title:gsub("\n", "\\n"), client.name)
+    end,
+  },
+}

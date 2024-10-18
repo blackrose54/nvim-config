@@ -49,18 +49,20 @@ return {
     end,
   },
   {
-    "windwp/nvim-ts-autotag"
+    "windwp/nvim-ts-autotag",
   },
   {
     "NvChad/nvim-colorizer.lua",
-    config = function ()
-      require("colorizer").setup({
+    config = function()
+      require("colorizer").setup {
         user_default_options = {
-          tailwind=true,
-        }
-      })
-      
-    end
-
-  }
+          tailwind = true,
+        },
+      }
+    end,
+  },
+  {
+    "stevearc/dressing.nvim",
+    opts = {},
+  },
 }
